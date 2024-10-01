@@ -118,22 +118,6 @@ new_list <- list(
 
 new_list
 
-
-# data frames
-
-# they are a class of objects to represent data matrices
-# rows are statistical units
-# columns are variables
-
-head(iris, n = 10)
-
-
-str(iris)
-
-# new data frames are usually created with the data.frame() function.
-# beware: data.frame()’s default behaviour turns strings into factors
-
-
 # factors
 
 # they are used to represent categorical data and can be either ordinal,
@@ -152,4 +136,134 @@ x # by default, the levels are ordered alphabetically
 str(x)
 
 table(x) # we get back a table with the levels and frequencies of the variables
+
+
+# data frames
+
+# they are a class of objects to represent data matrices
+# rows are statistical units
+# columns are variables
+
+head(iris, n = 10)
+
+
+str(iris)
+
+# new data frames are usually created with the data.frame() function.
+# beware: data.frame()’s default behaviour turns strings into factors
+
+# to avoid the problem of converting strings into factors,
+# we can use 'stringAsFactors' = FALSE
+
+v1 <- c(10,20,30)                                # numeric vector
+v2 <- c('a','b','c')                             # character vector
+v3 <- c(TRUE,TRUE,FALSE)                         # logical vector
+data.frame(v1, v2, v3, stringsAsFactors = FALSE) # data.frame
+
+s = c("a"=5, "b"=4, "c"=3, "d"=2, "e"=1)
+s[3] # subsetting vectors
+
+s[-3] # dropping elements
+
+s[10] # IMPORTANT: out of range index returns NA
+
+indx <- c(2,3,4) # we can retrive more than one element
+s[indx]
+
+i_names <- c('d', 'b') # we can also retrive elements with their names
+s[i_names]
+
+
+i_logical <- c(FALSE, FALSE, TRUE, FALSE, FALSE) # we can use also logical vectors
+s[i_logical]
+
+# the logical vector will be recycled if it is shorter than the vector to subset
+
+i <- c(FALSE, TRUE)
+s[i]
+
+i <- s > 2 # conditional subsetting
+s[i]
+
+
+# values in a matrix are retrieved by using the [,] operator, 
+# placing the row and column dimension before and after the comma
+
+M <- matrix(1:12, nrow = 3, ncol = 4, byrow = TRUE)
+rownames(M) <- c('r1', 'r2', 'r3')
+colnames(M) <- c('c1', 'c2', 'c3', 'c4')
+M 
+
+M[2,3]
+
+M[1,] # retrive the entire first row
+
+M[,1] # retrive the entire first column
+
+i <- c(2, 3)
+M[i, ]
+
+M[c(1, 3), c(2, 4)]
+
+# we can use also names of columns and rows
+
+i <- c('r1', 'r3')
+M[i,]
+
+i <- c('c2', 'c4')
+M[, i]
+
+i <- c('c2', 'c4')
+M[3, i]
+
+
+i <- c(TRUE, FALSE, FALSE)
+M[i, ]
+
+i <- c(TRUE, FALSE)  # ->  c(TRUE, FALSE, TRUE)
+M[i, ]
+
+i <- M[, 'c3'] < 2 * M[, 'c1']
+M[i, 'c4']
+
+M
+
+# subsetting lists
+
+new_list
+new_list[2] # we take the second element of the list that is a vector
+
+new_list[[2]]
+
+str(new_list[2]) # A LIST containing only the second element
+str(new_list[[2]]) # the second element of the list
+
+# we can extract elements using $
+
+new_list$A
+# or
+new_list[['A']]
+
+# the same works for data frames
+
+head(iris$Sepal.Length) # output: vector
+
+head(iris[['Sepal.Length']]) # output: vector
+
+head(iris[[1]]) # output: vector
+
+head(iris[1]) # output a dataframe with 1 column
+
+# in addition R allows to use a typical matrix syntax
+
+iris[1,] # first row
+
+head(iris[,1]) # first column
+
+
+iris[1,3] # is the observation corresponding to the first row and the third column
+
+head(iris[, 1,drop=FALSE],n = 3) # the first column (as a one-dimensional data frame)
+head(iris[, 1,drop=TRUE],n = 3) # the first column 
+
 
