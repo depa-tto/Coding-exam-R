@@ -40,7 +40,7 @@ class(y)
 
 # Complex numbers
 
-z <- 5+2i
+z <- 5 + 2i
 typeof(z)
 
 Re(z) # real part
@@ -75,7 +75,7 @@ c("Italy","Spain","France","UK","Ireland","Belgium")
 
 c(FALSE, 1, '2') # in this case, FALSE and 1 will be converted to characters
 
-x <- c(FALSE, 1, '2') 
+x <- c(FALSE, 1, '2')
 class(x[1])
 class(x[2])
 class(x[3])
@@ -85,7 +85,7 @@ class(x[3])
 c('Tottenham' = 14, 'Aston Villa' = 12, 'Brentford' = 6)
 
 x <- c(14,12,6) # vector
-n <- c('Tottenham','Aston Villa','Brentford') # vector of names
+n <- c('Tottenham', 'Aston Villa', 'Brentford') # vector of names
 names(x) <- n # assigning names
 x
 
@@ -105,3 +105,51 @@ rownames(M) <- rn
 colnames(M) <- cn
 
 M
+
+# list
+
+# a list is a collection of objects. is the most general and flexible element in R
+# because the can contain elements of any type, including other lists
+
+new_list <- list(
+        A = matrix(c(1,2,3,4), ncol = 2),
+        y = c(5,6,7,8)
+)
+
+new_list
+
+
+# data frames
+
+# they are a class of objects to represent data matrices
+# rows are statistical units
+# columns are variables
+
+head(iris, n = 10)
+
+
+str(iris)
+
+# new data frames are usually created with the data.frame() function.
+# beware: data.frame()’s default behaviour turns strings into factors
+
+
+# factors
+
+# they are used to represent categorical data and can be either ordinal,
+# for examplw company hierarchies, or non ordinal
+
+# a factor MUST be imagined as a vector of integers,
+# where each integer is associated with a label
+
+
+x <- factor(c("yes", "yes", "no"))
+x # by default, the levels are ordered alphabetically
+
+# additionally, if the levels have a hierarchy (e.g., soldier, lieutenant, marshal, etc.),
+# we can indicate this by specifying ordered = TRUE in the factor function.
+
+str(x)
+
+table(x) # we get back a table with the levels and frequencies of the variables
+
