@@ -257,7 +257,6 @@ head(iris[1]) # output a dataframe with 1 column
 # in addition R allows to use a typical matrix syntax
 
 iris[1,] # first row
-
 head(iris[,1]) # first column
 
 
@@ -266,4 +265,16 @@ iris[1,3] # is the observation corresponding to the first row and the third colu
 head(iris[, 1,drop=FALSE],n = 3) # the first column (as a one-dimensional data frame)
 head(iris[, 1,drop=TRUE],n = 3) # the first column 
 
+
+# ====================================
+#           Lecture 3
+# ====================================
+
+# If two vectors are of unequal length, 
+# the shorter one will be recycled in order to match the longer vector
+
+x <- c(100, 200, 300, 400, 500)
+y <- c(0, 1, 2, 3, 4, 5, 6, 7)
+## vector + vector
+x + y
 
