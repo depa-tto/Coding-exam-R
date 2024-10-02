@@ -275,7 +275,14 @@ head(iris[, 1,drop=TRUE],n = 3) # the first column
 
 x <- c(100, 200, 300, 400, 500)
 y <- c(0, 1, 2, 3, 4, 5, 6, 7)
-# vector + vector
-x + y
 
-bvbcvbc
+# so in this case the 2 vectors have different lenghts,
+# and their sum is computed by recycpling values of the shorter vector
+
+x + y 
+
+a <- 1
+x + a
+
+b <- 2
+x * b
