@@ -286,3 +286,33 @@ x + a
 
 b <- 2
 x * b
+
+M <- matrix(1:16, ncol = 4, nrow = 4, byrow = TRUE)
+M + a
+M * b
+
+M
+M + x # sum the vector x by column 
+M
+M * x # product between the vector and the columns of the matrix
+
+N <- M <- matrix(1:20*10, ncol = 5, nrow = 4, byrow = TRUE) # by 50
+
+M
+N
+M + N
+
+M %*% x # matrix product
+
+M
+x
+M * x # product between the elements in the vector and the columns of the matrix
+
+
+x <- c(100, 200, 300, 400, 500)
+y <- c(1, 2, 3, 4, 5)
+x %*% y # vector multiplication
+
+
+
+
