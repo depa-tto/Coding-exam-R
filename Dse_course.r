@@ -314,5 +314,142 @@ y <- c(1, 2, 3, 4, 5)
 x %*% y # vector multiplication
 
 
+# if statement
+if (7==7){
+        print('seven in equal to seven')
+}
+
+x <- 6
+y <- 6
+z = x + y
+
+if (z == 13){
+        print('true')
+} else {
+        print('false')
+}
+
+# if-else-else
+
+if (x>y) {
+        print('x is grater')
+} else if (x<y) {
+        print('y is grater')
+} else {
+        print('x and y are equal')
+}
+
+# nested if
+
+x <- 7
+y <- 5
+z <- 2
+if(x > y) {
+  print("x is greater than y")
+  if(x > z) {
+    print("x is greater than y and z")
+  }
+}
+
+# in R conditional statement as if are not vectorized,
+# and they handle only single values.
+# so if a vector is passed into an is, it checks only
+# the first element and gives an error for multiple conditions
+
+v <- c(1,2,3,4,5,6,7,8,9)
+
+if (v %% 2 == 0){
+        print('even')
+} else {
+        print('odd')
+}
+
+# so in the function above we will have an error.
+# while using ifelse(), the function will checks a condition
+# for every element in the vector
+
+ifelse(v %% 2 == 0, 'even', 'odd') 
+
+# we can use ifelse to choose between 2 vectors
 
 
+v1 <- c(1,2,3,4,5,6)
+v2 <- c("a","b","c","d","e","f")
+ifelse(c(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE), v1, v2)
+
+# and(&&), or(||), not(!)
+
+x <- 7
+y <- 5
+z <- 2
+if(x > y && x > z){
+        print('x is the greatest number')
+}
+
+x <- 7
+y <- 5
+z <- 9
+if(x > y || x > z) {
+  print("x is greater than y or z")
+}
+
+# compute the absolute value of x and assign it to y
+
+x <- -7
+if (x<0){
+        y <- (-x) 
+} else {
+        y <- x
+}
+
+y
+
+# we can use abs() as well
+
+abs(x)
+
+# which function
+
+# which function returns the array indeces that meet
+# a specific condition
+
+v1 <- c(10, 20, 30) # numeric vector
+v2 <- c('a', 'b', 'c') # character vector
+v3 <- c(TRUE, TRUE, FALSE) # logical vector
+
+my_data <- data.frame('c1' = v1, 
+                      'c2' = v2, 
+                      'c3' = v3, 
+                      stringsAsFactors = FALSE)
+my_data
+
+# we want alle the row numbers where column c1 is greater
+# than or eual to 20
+
+which(my_data$c1 >= 20)
+
+which(M == max(M), arr.ind = TRUE) 
+
+# %in%
+ 
+# this operator can be used to identify if an element,
+# like a number belongs to a vector or dataframe
+
+a <- LETTERS[1:10]
+a
+
+b <- LETTERS[7:12]
+b
+
+b %in% a
+
+# the split function takes a vector and splits it 
+# into groups defined by a factor
+
+# generates 5 values from a standard normal, 5 values from
+# uniform distribution (0,1), 5 values from a normal (1,sqrt(2)):
+
+x <- c(rnorm(n = 5), runif(n = 5), rnorm(n = 5, mean = 1,sd = 2))
+f <- gl(3, 5) # generate levels (as.factor(rep(1:3, each=10)))
+my_data <- split(x, f)
+my_data
