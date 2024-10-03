@@ -453,3 +453,128 @@ x <- c(rnorm(n = 5), runif(n = 5), rnorm(n = 5, mean = 1,sd = 2))
 f <- gl(3, 5) # generate levels (as.factor(rep(1:3, each=10)))
 my_data <- split(x, f)
 my_data
+
+
+# for loops are used for iterating over the elements of an object and 
+# doing some operations in the body of the loop
+for(i in 1:5){
+  print(i)
+}
+
+
+# seq() can be used to generate a sequence
+# with seq() we can also iterate with some different step lengths
+
+v <- seq(from=1, to=10, by=2)
+v
+
+for (i in v){
+        print(i)
+}
+
+# range() can be used within seq()
+
+range <- range(1,10)
+v <- seq(range[1], range[2], by=2)
+for (i in v){
+        print(i)
+}
+
+marks <- c(23,29,30,30,21,25,27,30,39,19)
+len_marks <- length(marks)
+sum <- 0
+
+for (i in (1:len_marks)){
+        sum <- sum + marks[i]
+}
+print(paste("The sum is: ", sum))
+
+print(paste("The mean is: " , sum/len_marks))
+
+# while 
+
+# while execute the loop untile the condition in the body
+# is true. if the condition becomes false, it stops
+
+val <- 1
+while(val < 5){
+        val <- val + 1
+        print(val)
+}
+
+val <- 6
+iter_max <- 0
+while(val > 5) {
+  val <- val + 1
+  print(val)
+  iter_max <- iter_max + 1
+  if(iter_max >= 10){
+    break
+  }
+}
+
+# next
+
+# next statement skip the current iteration of a loop
+# without terminatinf it
+
+x <- 1:4
+for (i in x){
+        if (i == 2){
+                next
+        }
+        print(i)
+}
+
+# functionals: function that takes a function as an input
+# and returns a vector as output
+
+# lapply() function applies a function to each element of a list
+# returnin a list
+
+x <- list(a = 1:10, b = 1:100, c = c(1,2,3,5,6,7,8))
+lapply(X=x, FUN=mean)
+
+lapply(X = 1:4, FUN = runif) # runif() generates random deviates from U(min,max) whit default min=0,max=1
+
+# when you pass a function to lapply(), it takes elements of the 
+# list and passes them as the first argument of the function you are applying
+
+set.seed(33) # with for loops
+res <- vector(mode = "list",length = 4)
+for (i in 1:4) {
+  res[[i]] <- runif(n = i,min = 0,max = 10)
+}
+res
+
+set.seed(33) # with lapply using the dot-dot-dot argument
+(res <- lapply(X = 1:4, FUN = runif, min=0,max=10))
+
+
+set.seed(33) # with lapply explicitly defining FUN
+(res <- lapply(
+  X = 1:4,
+  FUN = function(num)
+    runif(n = num, min = 0, max = 10)
+))
+
+# sapply()
+
+# the sapply() function is similar to lapply(),
+# but sapply will try to simplify the result of apply
+
+# sapply() calls lapply() on its input and then applies the following algorithm:
+# if the result is a list where every element is length 1, then a vector is returned;
+# if the result is a list where every element is a vector of the same length (> 1), a matrix is returned;
+# if it can’t figure things out, a list is returned.
+
+# example returning a vector
+
+x <- list(a = 1:10, b = 1:100)
+sapply(x, FUN = mean)
+
+# example returning a matrix
+
+BOD
+
+sapply(BOD, function(x) 10 * x)
