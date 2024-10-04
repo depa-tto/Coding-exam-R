@@ -533,9 +533,11 @@ for (i in x){
 # returnin a list
 
 x <- list(a = 1:10, b = 1:100, c = c(1,2,3,5,6,7,8))
-lapply(X=x, FUN=mean)
+lapply(X = x, FUN = mean)
 
-lapply(X = 1:4, FUN = runif) # runif() generates random deviates from U(min,max) whit default min=0,max=1
+# runif() generates random deviates from U(min,max) with
+# default min=0,max=1
+lapply(X = 1:4, FUN = runif)
 
 # when you pass a function to lapply(), it takes elements of the 
 # list and passes them as the first argument of the function you are applying
@@ -578,3 +580,64 @@ sapply(x, FUN = mean)
 BOD
 
 sapply(BOD, function(x) 10 * x)
+
+# ====================================
+#           Lecture 4
+# ====================================
+
+# the apply() function is used to evaluate a function over the 
+# margins(rows or columns) of an array
+
+M <- matrix(1:20, nrow = 4, ncol = 5, byrow = TRUE)
+print(apply(M, MARGIN = 2, FUN = mean)) # we want the mean of each column
+
+print(apply(M, MARGIN = 1, FUN = mean)) # we want the mean of each row
+
+
+# tapply() function is used to evaluate a functiont to each group of values 
+# defined by a factor
+# the basic syntax for tapply() is as follows: tapply(data, INDEX, FUN)
+# data: the vector or array you want to summarize
+# INDEX: a list of factors or grouping variables used to split the data
+# FUN: the function you want to apply to each subset
+
+x <- c(rnorm(10), runif(10), rnorm(10, 1))
+f <- gl(3, 10)
+tapply(X = x, INDEX = f, FUN = mean)
+
+# tapply() is also useful in dataset that contain a factor
+
+tapply(X = iris$Sepal.Length, INDEX = iris$Species, FUN = mean)
+
+# functions
+
+function_name <- function(arg1, arg2, arg3 = NULL, ...) {
+  # code 
+  return(...)  
+}
+
+# arg1, arg2 and arg3 are the input values
+# arg3 = NULL is the default value. if arg3 is not provided NULL will be used
+
+# function to compute the sum of the first n integer numbers
+
+sum_fun <- function(n){
+        s <- sum(1:n)
+        return(s)
+}
+
+sum_fun(n = 100)
+
+# function to compute the p-norm of a vector x
+
+p_norm <- function(x, p = 2){
+        d <- sum(x^p)^(1/p)
+        return(d)
+}
+print(p_norm(x = c(1, 1))) # default value of p = 2
+
+print(p_norm(x = c(1, 1), p = 3))
+
+
+
+
