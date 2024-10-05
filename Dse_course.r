@@ -681,4 +681,28 @@ fit
 # each line of the file is a data record
 
 data('mtcars')
-write.csv(mtcars, file = 'my_mtcars.csv') # we are exporting to file 
+write.csv(mtcars, file = 'my_mtcars.csv') # we are exporting the file, putting it in the repository
+
+
+# the easiest way to read a csv file is through read.csv()
+
+x <- read.csv('my_mtcars.csv')
+head(x, n=5)
+
+covid_daily_report = read.csv(file = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/jhu/full_data.csv")
+head(covid_daily_report, n = 5)
+
+
+# the quantmod package provides a very usefull function for 
+# downloading finacial data from the web
+
+library(quantmod)
+x <- getSymbols(Symbols = 'EUR/USD', src = 'oanda', auto.assign = FALSE)
+head(x)
+tail(x)
+
+# for economic series, the FRED source is used 
+
+# retrieve the historical Gross Domestic Product for Japan
+x <- getSymbols(Symbols = 'JPNNGDP', src = 'FRED', auto.assign = FALSE)   
+tail(x)
