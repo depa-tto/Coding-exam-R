@@ -639,5 +639,46 @@ print(p_norm(x = c(1, 1))) # default value of p = 2
 print(p_norm(x = c(1, 1), p = 3))
 
 
+# functions
 
+# a function firstly creates a temporary local enviroment
+# this local enviroment is destroyed as soon as the functions ends
 
+test <- function(){
+        tets_string <- 'This object is destroyed as soon as the function ends'
+        cat(tets_string)
+}
+
+test()
+
+# R firstly search in the local environment
+# if the object is not present in searches in the global enviroment for that object
+
+i <- 1 # global value
+
+test <- function(){
+        # since there is no i in the local env. the function will search in the global env
+        i <- i * 10 # local variable i
+        return(i)
+}
+
+test()
+i # global env. has not changed
+
+# call an external function
+
+source("my_regr_coeff.R") # with source we load this function in the enviroment
+
+height = c(160, 172, 175, 168, 170, 171, 169, 165, 165, 160, 180, 186, 190, 170)
+weights = c(55, 67, 80, 68, 72, 75, 70, 65, 62, 60, 85, 90, 92, 71)
+
+fit <- my_rc(X = height, Y = weights)
+fit
+
+# CVS: Comma Separated Values
+
+# a csv file stores tabular data in plain text
+# each line of the file is a data record
+
+data('mtcars')
+write.csv(mtcars, file = 'my_mtcars.csv') # we are exporting to file 
