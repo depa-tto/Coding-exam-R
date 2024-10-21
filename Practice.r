@@ -1,4 +1,7 @@
+# R Coding ----
+
 # Lecture 1: Tidyverse Basics ---------------------------------------------
+# Marco Zanotti
 
 # Goals:
 # - Dive into the tidyverse
@@ -215,7 +218,7 @@ values <- seq(0, 2 * pi, length = 100)
 sinx <- sin(values)
 
 plot(x = values, y = sinx, type = "l")
-plot(x = values, y = sin(values), type = "l")
+plot(x = seq(0, 2 * pi, length = 100), y = sin(values), type = "l")
 
 # Look at the labels on the axes. How did R know that the variable on the x 
 # axis is called x and the variable on the y axis is called sinx? In most
@@ -253,7 +256,7 @@ plot(x = values, y = sin(values), type = "l")
 
 # * 1. Data Masking -------------------------------------------------------
 # Data masking makes data manipulation faster because it requires less typing. 
-# In most (but not all1) base R functions you need to refer to variables with $, 
+# In most (but not all) base R functions you need to refer to variables with $, 
 # leading to code that repeats the name of the data frame many times:
 
 starwars
@@ -293,13 +296,11 @@ df$x
   
 select(df, 1) # selects the first column 
 select(df, last_col()) # selects the last column
-select(df, x) # selects columns x, and y
+select(df, x) # selects columns x
 select(df, c(x, y)) # selects columns x, and y
 select(df, starts_with("x")) # selects all columns whose name starts with “x”
 select(df, ends_with("y")) # selects all columns whose name ends with “y”
 select(df, where(is.numeric)) # selects all numeric columns
-
-
 
 # Pipe Operator -----------------------------------------------------------
 
@@ -317,7 +318,7 @@ select(df, where(is.numeric)) # selects all numeric columns
 # The operators pipe their left-hand side values forward into expressions 
 # that appear on the right-hand side, i.e. one can replace f(x) with x %>% f(), 
 # where %>% is the (main) pipe-operator. When coupling several function 
-# calls with the pipe-operator, the benefit will become more apparent. 
+# calls with the pipe-operator, the benefit will become more apparent.
 
 library(magrittr)
 
@@ -335,7 +336,7 @@ the_data
 # it is straightforward to add to the sequence of operations wherever 
 # it may be needed.
 
-# Without piping this results into:
+# Without piping this results into: we want to avoid that due to difficulty to be read
 the_data <- 
   select(
     mutate(
@@ -358,7 +359,7 @@ the_data <- select(the_data, name, height, mass, mass_lbs)
 
 # * Basic Piping ----------------------------------------------------------
 
-x %>% f() # is equivalent to f(x)
+x %>% f() #  is equivalent to f(x)
 x %>% f(y) # is equivalent to f(x, y)
 x %>% f() %>% g() %>% h() # is equivalent to h(g(f(x)))
 
@@ -373,6 +374,8 @@ x %>% f(y, .) # is equivalent to f(y, x)
 x %>% f(y, z = .) # is equivalent to f(y, z = x)
 
 # The . has a placeholder function when coupled with the pipe.
+# so . is a placeholder for the argument we want to pass and tell the pipe where
+# to put the aurgument 
 
 
 # * Re-using Placeholder for Attributes -----------------------------------
@@ -386,7 +389,8 @@ x %>% f(y = nrow(.), z = ncol(.)) # is equivalent to f(x, y = nrow(x), z = ncol(
 # this behavior can be overruled by enclosing the right-hand side in braces:
 x %>% {f(y = nrow(.), z = ncol(.))} # is equivalent to f(y = nrow(x), z = ncol(x))
 
-
+# if we do not want the argument to be passed in first position of the function
+# we have to use {} 
 
 # Tibble ------------------------------------------------------------------
 
@@ -520,8 +524,8 @@ str_squish("  hello   world  ")
 # * Count Patterns --------------------------------------------------------
 str_length("hello")
 
-str_count("hello", "h") # h letter
-str_count("hello;", "\\w") # word + numbers
+str_count("hello", "h") # count how many times letter h appears
+str_count("hello 123;", "\\w") # word + numbers
 str_count("hello;", "[:punct:]") # punctuation
 str_count("hello", "\\d") # digits
 
@@ -761,7 +765,6 @@ t1 <- ymd_hms("2022-01-01 10:30:15")
 t2 <- ymd_hms("2022-01-02 22:30:15")
 class(t1)
 
-
 # * Differences -----------------------------------------------------------
 
 # Time Differences
@@ -846,3 +849,4 @@ xlsx_example <- readxl_example("datasets.xlsx")
 excel_sheets(xlsx_example)
 read_excel(xlsx_example, sheet = "mtcars")
 
+install.packages('writexl') # library that let us write exel documents in R
