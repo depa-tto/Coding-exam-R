@@ -706,3 +706,111 @@ tail(x)
 # retrieve the historical Gross Domestic Product for Japan
 x <- getSymbols(Symbols = 'JPNNGDP', src = 'FRED', auto.assign = FALSE)   
 tail(x)
+
+# ====================================
+#           Lecture 5
+# ====================================
+
+x1 <- 1:10
+y1 <- 10:1
+plot(x1, y1)
+
+# we can easily modify our plot
+plot(x1, y1, col = "red", cex = 2, pch = 20, xlab = "Hi!", ylab = "", main = "My second plot!")
+
+# we can add new point to an existing plot using the points() function
+x2 <- runif(100, min = 0, max = 10)
+y2 <- runif(100, min = 0, max = 10)
+plot(x1, y1, col = "red", cex = 2, pch = 20)
+points(x2, y2, col = "blue", cex = 2, pch = 20)
+
+# to present two sets of points in separate plots within the same panel we can 
+# use the mfrow parameter
+
+par(mfrow = c(1,2))
+plot(x1, y1, type = 'b', col = 'red', cex = 2, pch = 20)
+plot(x2, y2, col = 'blue', cex = 2, pch = 20)
+
+# to reset the old graphicla parameters and close the graphical device we use:
+dev.off()
+par(mfrow = c(1,1))
+
+# we can use segments() and lines() functions to add lines and segments to an existing plot:
+# - lwd modifies line width
+# - col modifies line color
+# - lty modifies line type
+
+plot(x2, y2, xlim = c(-0.25, 10.25), ylim = c(-0.25, 10.25), pch = 20)
+segments(
+  x0 = c(0,   0, 10, 10, 0,   0), y0 = c(0,  10, 10,  0, 0,  10),
+  x1 = c(0,  10, 10,  0, 10, 10), y1 = c(10, 10,  0,  0, 10,  0),
+  lwd = 2, col = 2,  lty = 2
+)
+
+# we can pass vectors to certain arguments like#
+# - color(col)
+# - point type(pch)
+# - sixe(cex)
+
+
+plot(x1, y1, col = 1:10, pch = 1:10, cex = 1:10 / 2, lwd = 3, 
+        xlab = "", ylab = "", xlim = c(0, 11), ylim = c(0, 11))
+
+# the function 'lines()' can be used to add lines to an existing plot overlaying it
+
+x3 <- seq(-5, 5, by = 0.1)
+plot(x3, sin(x3), type = 'l', ylab = '', xlab = 'x', lwd = 2, col = 'red')
+
+lines(x3, cos(x3), lwd = 2, col = 'blue')
+
+# histograms
+
+set.seed(1)
+x4 <- rnorm(n = 500)
+hist(x4)
+
+hist(x4, breaks = 30) # with breaks we can control the number of breakpoints
+
+# The hist() function can plot relative frequencies
+# the density() function can be used to estimate the probability density of the data
+
+hist(x4, breaks=30, freq=FALSE)
+lines(density((x4), lwd=2, col= 'grey', lty=2))
+
+# the density() function provides a non parametric estiamte of the probability density function
+
+plot(density(x4, bw = 1)) # bw is the parameter responsable of smoothing
+
+plot(density(x4, bw = 0.1))
+
+# the curve() function is used to plot mathematical expression in R
+
+curve(expr = x^3 - x^2 - 3*x, from = -2, to = 2.5)
+
+# he curve() function can also be used to plot predefined functions like dnorm(),
+# which represents the probability density function of a normal distribution
+
+curve(dnorm, from = -3, to = 3)
+
+# custumization
+
+curve(expr = x ^ 3 - x ^ 2 - 3 * x,
+  from = -2, to = 2.5, lwd = 2, col = 2,
+  main = bquote(f(x) == x^3 - x^2 - 3 * x), #  see?plotmath
+  xlab = "", ylab = "", cex.axis = 1.25, cex.main = 2, lty = 2
+)
+
+
+# empirical comulative distribution function(ECDF)
+
+# the ecds() function calculates the ecdf for a numeric vector
+# ECDF represents the percentage of values in x that are less than or equal to t
+
+x5 <- c(1,2,3)
+plot(ecdf(x5))
+
+# generating random normal data and comparing ECDF with CDF
+set.seed(1)
+x <- rnorm(100)
+plot(ecdf(x), cex = 0.1) # ECDF plot
+curve(pnorm, add = TRUE, col = 2, lwd = 2) # overlay theoretical CDF
