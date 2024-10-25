@@ -814,3 +814,105 @@ set.seed(1)
 x <- rnorm(100)
 plot(ecdf(x), cex = 0.1) # ECDF plot
 curve(pnorm, add = TRUE, col = 2, lwd = 2) # overlay theoretical CDF
+
+# ====================================
+#           Lecture 6
+# ====================================
+
+# tibble: tabular format. 
+# differences between tibbles and data frames:
+
+# 1.printing: For tibbles, only the first 10 rows and the first 6 columns of the dataset are printed. 
+# the class of each variable is also displayed.
+# 2.subsetting: Tibbles do not perform partial matching. 
+# additionally, subsetting a tibble always returns a tibble.
+# 3. in tibbles, character variables are not converted to factors. 
+# also, tibbles do not have row names.
+
+head(iris, 3)
+iris_tbl <- tibble::as_tibble(iris)
+iris_tbl
+
+head(iris$Species, 3)
+head(iris_tbl$Species, 3)
+
+head(iris[,1])
+iris_tbl[,1]
+
+# if we use the library readr to import external data, the result will always be a tibble
+
+library(ggplot2)
+data(mpg)
+
+# relationhip existing between hwy, so miles per gallon and displ, so engine displacement
+ggplot(data = mpg) + 
+        geom_point(mapping = aes(x = displ, y = hwy))
+
+# ggplot creates an empty plot
+# with geom_point we add an extra layer to the plot creating a scatterplot
+# to define how a layer is crated we use 'aes' function, within which we
+# specify which values to map to x-axis and the y-axis
+
+# structures
+# ggplot(data = DATA) + 
+#        GEOM_FUNCTION(mapping = aes(MAPPINGS))
+
+# GEOM_FUNCTION is a function that creates a layer
+# MAPPINGS are the parameters we pass to the function
+
+# how does the relationship between hwl and displ chenage with respect to the vehicle type
+ggplot(data = mpg) + 
+        geom_point(mapping = aes(x = displ, y = hwy, color = class))
+
+# we can associate the class variable with different characteristics of a poit such as its size
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, size = drv))
+
+
+ggplot(data = mpg) + 
+        geom_point(mapping = aes(x = displ, y = hwy), col = "blue")
+
+ggplot(data = mpg) + 
+        geom_smooth(mapping = aes(x = displ, y = hwy))
+
+# we now are going to modify the line type
+
+# the next plot will give us a trend line for different values of drv
+ggplot(data = mpg) + 
+        geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv))
+
+# multiple layers
+ggplot(data = mpg) +
+        geom_smooth(mapping = aes(x = displ, y = hwy)) +
+        geom_point(mapping = aes(x = displ, y = hwy))
+
+# we can see that the code is quite repetitive
+# we can avoid that by specifying the common aesthetics inside the ggplot funciton
+# and the unique ones inside the GEOM_FUNCTION
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+        geom_point(mapping = aes(col = class)) +
+        geom_smooth()
+
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, col = class)) +
+  geom_point(size = 3, alpha = 0.7) +  # Larger points with transparency
+  geom_smooth(se = FALSE, linetype = "dashed", linewidth = 1.2,span=1.5) +  # Smoother lines without confidence interval
+  scale_color_brewer(palette = "Set1") +  # Use a colorblind-friendly palette
+  labs(
+    title = "Fuel Efficiency vs Engine Displacement",
+    subtitle = "Relationship between engine size and highway fuel efficiency across car types",
+    x = "Engine Displacement (liters)",
+    y = "Highway Fuel Efficiency (mpg)",
+    color = "Vehicle Class"
+  ) + 
+  theme_minimal(base_size = 15) +  # Clean minimalistic theme
+  theme(
+    plot.title = element_text(face = "bold", size = 18, hjust = 0.5),
+    plot.subtitle = element_text(size = 14, hjust = 0.5),
+    legend.position = "bottom",  # Move legend to the bottom
+    legend.title = element_text(size = 12),
+    legend.text = element_text(size = 10),
+    legend.background = element_rect(fill = "gray95", color = NA)
+  )
+
