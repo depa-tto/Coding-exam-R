@@ -82,8 +82,9 @@ library(tidyr)
 relig_income
 relig_income %>% 
   pivot_longer(-religion, names_to = "income", values_to = "frequency")
-    # pivot longer means we are putting columns into rows
-
+# longer means we are putting columns into rows
+# pivot_longer() "lengthens" data, increasing the number of rows and decreasing the number of columns
+# the inverse transformation is pivot_wider()
 
 billboard
 names(billboard)
@@ -122,8 +123,10 @@ tb
 tb %>% 
   pivot_longer(
     !c(iso2, year), 
-    names_to = "name", 
-    values_to = "n"
+    names_to = "name", # A character vector specifying the new column or columns to create from 
+                        # the information stored in the column names of data specified by cols
+    values_to = "n" # A string specifying the name of the column to create from the data stored in cell values. 
+                    # If names_to is a character containing the special
   ) %>% 
   separate(col = name, into = c("sex", "age"), sep = 1) %>% 
   fill(n, .direction = "down")
