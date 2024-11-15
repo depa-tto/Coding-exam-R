@@ -1014,20 +1014,3 @@ l_square <- 2
 A_square <- 2^2
 simulated_pi <- A_circle_over_A_square*A_square
 print(simulated_pi)
-
-
-# ====================================
-#           Lecture 8
-# ====================================
-
-
-# Now we are going to develop an R package named statsAndBooze. 
-# The objective of this package is to find the optimal date for happy hour 
-# given a set of constraints. 
-
-# The following code can be used to generate the skeleton of an empty R package named packageName:
-libray(devtools)
-create_package()
-
-
-
