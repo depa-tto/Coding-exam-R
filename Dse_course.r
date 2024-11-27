@@ -323,10 +323,10 @@ head(iris[, 1,drop=TRUE],n = 3) # the first column
 # ====================================
 
 # If two vectors are of unequal length, 
-# the shorter one will be recycled in order to match the longer vector
+# the shorter one will be recycled in order to match the longer vector 
 
 x <- c(100, 200, 300, 400, 500)
-y <- c(0, 1, 2, 3, 4, 5, 6, 7)
+y <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
 
 # so in this case the 2 vectors have different lenghts,
 # and their sum is computed by recycpling values of the shorter vector
@@ -340,13 +340,15 @@ b <- 2
 x * b
 
 M <- matrix(1:16, ncol = 4, nrow = 4, byrow = TRUE)
+M
 M + a
 M * b
 
 M
+x
 M + x # sum the vector x by column 
 M
-M * x # product between the vector and the columns of the matrix
+M * x # product between the vector x by the columns of the matrix
 
 N <- M <- matrix(1:20*10, ncol = 5, nrow = 4, byrow = TRUE) # by 50
 
@@ -363,7 +365,7 @@ M * x # product between the elements in the vector and the columns of the matrix
 
 x <- c(100, 200, 300, 400, 500)
 y <- c(1, 2, 3, 4, 5)
-x %*% y # vector multiplication
+x %*% y # vector multiplication: 100*1+200*2+300*3+400*4+500*5
 
 
 # if statement
@@ -405,7 +407,7 @@ if(x > y) {
 
 # in R conditional statement as if are not vectorized,
 # and they handle only single values.
-# so if a vector is passed into an is, it checks only
+# so if a vector is passed into an if, it checks only
 # the first element and gives an error for multiple conditions
 
 v <- c(1,2,3,4,5,6,7,8,9)
@@ -428,6 +430,9 @@ ifelse(v %% 2 == 0, 'even', 'odd')
 v1 <- c(1,2,3,4,5,6)
 v2 <- c("a","b","c","d","e","f")
 ifelse(c(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE), v1, v2)
+# for positions where the condition is TRUE, it takes values from v1: "1", "3", "5".
+# for positions where the condition is FALSE, it takes values from v2: "b", "d", "f".
+
 
 # and(&&), or(||), not(!)
 
@@ -462,8 +467,7 @@ abs(x)
 
 # which function
 
-# which function returns the array indeces that meet
-# a specific condition
+# which function returns the array indeces that meet a specific condition
 
 v1 <- c(10, 20, 30) # numeric vector
 v2 <- c('a', 'b', 'c') # character vector
@@ -475,7 +479,7 @@ my_data <- data.frame('c1' = v1,
                       stringsAsFactors = FALSE)
 my_data
 
-# we want alle the row numbers where column c1 is greater
+# we want all the row numbers where column c1 is greater
 # than or eual to 20
 
 which(my_data$c1 >= 20)
@@ -503,6 +507,7 @@ b %in% a
 
 x <- c(rnorm(n = 5), runif(n = 5), rnorm(n = 5, mean = 1,sd = 2))
 f <- gl(3, 5) # generate levels (as.factor(rep(1:3, each=10)))
+x
 my_data <- split(x, f)
 my_data
 
@@ -568,9 +573,9 @@ while(val > 5) {
 # next
 
 # next statement skip the current iteration of a loop
-# without terminatinf it
+# without terminating it
 
-x <- 1:4
+x <- 1:6
 for (i in x){
         if (i == 2){
                 next
