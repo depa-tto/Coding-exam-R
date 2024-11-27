@@ -646,12 +646,13 @@ sapply(BOD, function(x) 10 * x)
 # margins(rows or columns) of an array
 
 M <- matrix(1:20, nrow = 4, ncol = 5, byrow = TRUE)
+M
+
 print(apply(M, MARGIN = 2, FUN = mean)) # we want the mean of each column
 
 print(apply(M, MARGIN = 1, FUN = mean)) # we want the mean of each row
 
-
-# tapply() function is used to evaluate a functiont to each group of values 
+# tapply() function is used to evaluate a function to each group of values 
 # defined by a factor
 # the basic syntax for tapply() is as follows: tapply(data, INDEX, FUN)
 # data: the vector or array you want to summarize
@@ -659,11 +660,21 @@ print(apply(M, MARGIN = 1, FUN = mean)) # we want the mean of each row
 # FUN: the function you want to apply to each subset
 
 x <- c(rnorm(10), runif(10), rnorm(10, 1))
-f <- gl(3, 10)
-tapply(X = x, INDEX = f, FUN = mean)
+# rnorm(10) generates 10 random values from a standard normal distribution (mean 0, SD 1).
+# runif(10) generates 10 random values from a uniform distribution between 0 and 1.
+# rnorm(10, 1) generates 10 random values from a normal distribution with mean 1 and SD 1.
+x
+
+# gl(3, 10) generates a factor variable with 3 levels (1, 2, 3), each repeated 10 times, resulting in 30 values
+f <- gl(3, 10) # [1] 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3
+f
+tapply(X = x, INDEX = f, FUN = mean) 
 
 # tapply() is also useful in dataset that contain a factor
 
+
+# This applies the function mean to the values of x, grouped by the levels of f.
+# The result is the mean of each group in x corresponding to the levels of f
 tapply(X = iris$Sepal.Length, INDEX = iris$Species, FUN = mean)
 
 # functions
