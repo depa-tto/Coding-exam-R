@@ -32,6 +32,7 @@ class(x) # so even if an integer is assigned to a variable, it is still numeric
 
 x <- as.integer(11)
 is.integer(x)
+class(x) # now the x is converted into an integer
 
 # integers can also be declared by appendig an L suffix
 
@@ -84,10 +85,12 @@ class(x[3])
 
 c('Tottenham' = 14, 'Aston Villa' = 12, 'Brentford' = 6)
 
-x <- c(14,12,6) # vector
+x <- c(14,12,6,4) # vector
 n <- c('Tottenham', 'Aston Villa', 'Brentford') # vector of names
 names(x) <- n # assigning names
-x
+x 
+# note that where there is no match between value and column the column will have <NA>
+# while if there is a column name more than the number of values, an error will be given
 
 # matrix
 
@@ -106,6 +109,13 @@ colnames(M) <- cn
 
 M
 
+N <- matrix(c(9,8,7,6,5,4,3,2,1),nrow=3,ncol=3,byrow=FALSE)
+
+rownames(N) <- c('r1','r2','r3')
+colnames(N) <- c('c1','c2','c3')
+
+N
+
 # list
 
 # a list is a collection of objects. is the most general and flexible element in R
@@ -118,10 +128,49 @@ new_list <- list(
 
 new_list
 
+new_list[2]
+new_list[[2]] 
+new_list$A[2] # how to take a value in a nested list
+new_list$y[3]
+ 
+
+# declaring a nested list
+nested_list <- list(list(letters[1:8],"secondele"),5:15)
+
+print("Original list")
+nested_list
+
+print ("Accessing first sub-list of the list")
+nested_list[1]
+
+print ("Accessing first component of the list")
+nested_list[[1]]
+
+print ("Accessing components inside component of the list")
+nested_list[[1]][[2]]
+
+
+# Lista annidata
+nested_list <- list(
+  a = list(x = 1, y = 2),
+  b = list(z = 3, w = 4)
+)
+
+# Accesso a un elemento specifico
+nested_list[[1]]          # Accede alla prima lista (a)
+nested_list[[1]][["x"]]   # Accede all'elemento 'x' della lista 'a'
+nested_list[[2]][["z"]]   # Accede all'elemento 'z' della lista 'b'
+
+
+nested_list$a             # Accede alla lista 'a'
+nested_list$a$x           # Accede all'elemento 'x' della lista 'a'
+nested_list$b$z           # Accede all'elemento 'z' della lista 'b'
+
+
 # factors
 
 # they are used to represent categorical data and can be either ordinal,
-# for examplw company hierarchies, or non ordinal
+# for example company hierarchies, or non ordinal
 
 # a factor MUST be imagined as a vector of integers,
 # where each integer is associated with a label
@@ -194,7 +243,7 @@ rownames(M) <- c('r1', 'r2', 'r3')
 colnames(M) <- c('c1', 'c2', 'c3', 'c4')
 M 
 
-M[2,3]
+M[2,3] # before the row and after the comma
 
 M[1,] # retrive the entire first row
 
@@ -233,7 +282,10 @@ M
 new_list
 new_list[2] # we take the second element of the list that is a vector
 
-new_list[[2]]
+new_list[[2]] # the result is the content of the second element, not wrapped in a list
+
+class(new_list[2]) # output: 'list'
+class(new_list[[2]]) # output: 'numeric'
 
 str(new_list[2]) # A LIST containing only the second element
 str(new_list[[2]]) # the second element of the list
