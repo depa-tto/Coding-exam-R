@@ -1071,3 +1071,6 @@ l_square <- 2
 A_square <- 2^2
 simulated_pi <- A_circle_over_A_square*A_square
 print(simulated_pi)
+
+
+install.packages("jsonlite")
