@@ -784,6 +784,8 @@ y1 <- 10:1
 plot(x1, y1)
 
 # we can easily modify our plot
+# cex=number to change the size of the points (1 is default, while 0.5 means 50% smaller, and 2 means 100% larger)
+# point shape: use 'pch' with a value from 0 to 25 to change the point shape format:
 plot(x1, y1, col = "red", cex = 2, pch = 20, xlab = "Hi!", ylab = "", main = "My second plot!")
 
 # we can add new point to an existing plot using the points() function
@@ -795,8 +797,8 @@ points(x2, y2, col = "blue", cex = 2, pch = 20)
 # to present two sets of points in separate plots within the same panel we can 
 # use the mfrow parameter
 
-par(mfrow = c(1,2))
-plot(x1, y1, type = 'b', col = 'red', cex = 2, pch = 20)
+par(mfrow = c(1,2)) # one row two columns
+plot(x1, y1, type = 'b', col = 'red', cex = 2, pch = 20) # 'b' means both points and lines connecting the points will be plotted.
 plot(x2, y2, col = 'blue', cex = 2, pch = 20)
 
 # to reset the old graphicla parameters and close the graphical device we use:
@@ -808,6 +810,27 @@ par(mfrow = c(1,1))
 # - col modifies line color
 # - lty modifies line type
 
+# x0 and y0: Starting coordinates of each segment.
+# x1 and y1: Ending coordinates of each segment.
+
+plot(x2, y2, xlim = c(-0.25, 10.25), ylim = c(-0.25, 10.25), pch = 20)
+segments(
+  x0 = c(0,   0, 10, 10), y0 = c(0,  10, 10,  0),
+  x1 = c(0,  10, 10,  0), y1 = c(10, 10,  0,  0),
+  lwd = 2, col = 2,  lty = 2
+)
+
+
+plot(x2, y2, xlim = c(-0.25, 10.25), ylim = c(-0.25, 10.25), pch = 20)
+segments(
+  x0 = c(0,   0, 10, 10), y0 = c(0,  10, 10,  0, 0,  10),
+  x1 = c(0,  10, 10,  0), y1 = c(10, 10,  0,  0, 10,  0),
+  lwd = 2, col = 2,  lty = 2
+)
+
+
+
+
 plot(x2, y2, xlim = c(-0.25, 10.25), ylim = c(-0.25, 10.25), pch = 20)
 segments(
   x0 = c(0,   0, 10, 10, 0,   0), y0 = c(0,  10, 10,  0, 0,  10),
@@ -815,7 +838,7 @@ segments(
   lwd = 2, col = 2,  lty = 2
 )
 
-# we can pass vectors to certain arguments like#
+# we can pass vectors to certain arguments like
 # - color(col)
 # - point type(pch)
 # - sixe(cex)
@@ -843,7 +866,7 @@ hist(x4, breaks = 30) # with breaks we can control the number of breakpoints
 # the density() function can be used to estimate the probability density of the data
 
 hist(x4, breaks=30, freq=FALSE)
-lines(density((x4), lwd=2, col= 'grey', lty=2))
+lines(density((x4)))
 
 # the density() function provides a non parametric estiamte of the probability density function
 
@@ -855,7 +878,7 @@ plot(density(x4, bw = 0.1))
 
 curve(expr = x^3 - x^2 - 3*x, from = -2, to = 2.5)
 
-# he curve() function can also be used to plot predefined functions like dnorm(),
+# the curve() function can also be used to plot predefined functions like dnorm(),
 # which represents the probability density function of a normal distribution
 
 curve(dnorm, from = -3, to = 3)
@@ -864,7 +887,7 @@ curve(dnorm, from = -3, to = 3)
 
 curve(expr = x ^ 3 - x ^ 2 - 3 * x,
   from = -2, to = 2.5, lwd = 2, col = 2,
-  main = bquote(f(x) == x^3 - x^2 - 3 * x), #  see?plotmath
+  main = bquote(f(x) == x^3 - x^2 - 3 * x), #  see plotmath
   xlab = "", ylab = "", cex.axis = 1.25, cex.main = 2, lty = 2
 )
 
@@ -882,6 +905,7 @@ set.seed(1)
 x <- rnorm(100)
 plot(ecdf(x), cex = 0.1) # ECDF plot
 curve(pnorm, add = TRUE, col = 2, lwd = 2) # overlay theoretical CDF
+pnorm
 
 # ====================================
 #           Lecture 6
@@ -897,10 +921,12 @@ curve(pnorm, add = TRUE, col = 2, lwd = 2) # overlay theoretical CDF
 # 3. in tibbles, character variables are not converted to factors. 
 # also, tibbles do not have row names.
 
+library(tibble)
 head(iris, 3)
 iris_tbl <- tibble::as_tibble(iris)
 iris_tbl
 
+iris$Species
 head(iris$Species, 3)
 head(iris_tbl$Species, 3)
 
@@ -911,6 +937,7 @@ iris_tbl[,1]
 
 library(ggplot2)
 data(mpg)
+head(mpg)
 
 # relationhip existing between hwy, so miles per gallon and displ, so engine displacement
 ggplot(data = mpg) + 
