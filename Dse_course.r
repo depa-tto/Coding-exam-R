@@ -11,28 +11,31 @@ ls() # lists the objects present in the workspace
 
 rm() # deletes one or more specified objects from the workspace
 
-rm(list = ls()) # removes all objects from the workspace.
+rm(list = ls()) # removes all objects from the workspace
 
 library() # lists the installed packages in the library specified by .libPaths()
-
-library()
 
 # ====================================
 #           Lecture 2
 # ====================================
 
+# numeric: Represents numbers and is divided into:
+# double: Double-precision floating-point numbers.
+# integer: Integer numbers.
 
 x <- 14.33 # decimal values are called 'numeric' in R
-class(x)
-
-typeof(x)
+class(x) # class of x
+typeof(x) # type of R object of x
 
 x <- 10
 class(x) # so even if an integer is assigned to a variable, it is still numeric
+is.integer(x)
+typeof(x)
 
 x <- as.integer(11)
 is.integer(x)
 class(x) # now the x is converted into an integer
+typeof(x)
 
 # integers can also be declared by appendig an L suffix
 
@@ -53,7 +56,7 @@ Mod(z) # modulus
 x <- 2 > 1
 x
 
-# logical operations
+# Standard logical operations are & (and), | (or), and ! (not):
 
 u <- TRUE
 v <- FALSE
@@ -67,6 +70,7 @@ my_str = 'Via Conservatorio'
 sub('Via', 'Piazza', my_str) # with sub we can substitute terms in a string
 
 # vectors
+# created with the c() function, that stands for CONCATENATE
 
 c(1,2,3,4,5,6)
 
@@ -99,6 +103,11 @@ M <- matrix(data = c(1,2,3,4,5,6), # data elements
         nrow = 2, # number of rows
         byrow = TRUE) # fill matrix by rows
 
+G <- matrix(c(1,2,3,4,5,6,7,8,9),nrow=3) # by columns is the default behaviour
+rownames(G) <- c('a','b','c')
+colnames(G) <- c('d','e','f')
+G
+
 M
 
 rn <- c('row1', 'row2')
@@ -109,7 +118,7 @@ colnames(M) <- cn
 
 M
 
-N <- matrix(c(9,8,7,6,5,4,3,2,1),nrow=3,ncol=3,byrow=FALSE)
+N <- matrix(c(9,8,7,6,5,4,3,2,1),nrow=3,ncol=3)
 
 rownames(N) <- c('r1','r2','r3')
 colnames(N) <- c('c1','c2','c3')
@@ -129,7 +138,9 @@ new_list <- list(
 new_list
 
 new_list[2]
+new_list$y
 new_list[[2]] 
+
 new_list$A[2] # how to take a value in a nested list
 new_list$y[3]
  
@@ -137,7 +148,6 @@ new_list$y[3]
 # declaring a nested list
 nested_list <- list(list(letters[1:8],"secondele"),5:15)
 
-print("Original list")
 nested_list
 
 print ("Accessing first sub-list of the list")
@@ -150,21 +160,20 @@ print ("Accessing components inside component of the list")
 nested_list[[1]][[2]]
 
 
-# Lista annidata
 nested_list <- list(
   a = list(x = 1, y = 2),
   b = list(z = 3, w = 4)
 )
 
-# Accesso a un elemento specifico
-nested_list[[1]]          # Accede alla prima lista (a)
-nested_list[[1]][["x"]]   # Accede all'elemento 'x' della lista 'a'
-nested_list[[2]][["z"]]   # Accede all'elemento 'z' della lista 'b'
+
+nested_list[[1]]          # access to first list (a)
+nested_list[[1]][["x"]]   # access to element 'x' of list 'a'
+nested_list[[2]][["z"]]   # access to element 'z' of list 'b'
 
 
-nested_list$a             # Accede alla lista 'a'
-nested_list$a$x           # Accede all'elemento 'x' della lista 'a'
-nested_list$b$z           # Accede all'elemento 'z' della lista 'b'
+nested_list$a             # access to first list (a)
+nested_list$a$x           # access to element 'x' of list 'a'
+nested_list$b$z           # access to element 'z' of list 'b'
 
 
 # factors
@@ -182,7 +191,8 @@ x # by default, the levels are ordered alphabetically
 # additionally, if the levels have a hierarchy (e.g., soldier, lieutenant, marshal, etc.),
 # we can indicate this by specifying ordered = TRUE in the factor function.
 
-str(x)
+str(x) # structure of the factor.
+# here we can see that a factor in nothing more than an integer associated with a label
 
 table(x) # we get back a table with the levels and frequencies of the variables
 
@@ -199,7 +209,7 @@ head(iris, n = 10)
 str(iris)
 
 # new data frames are usually created with the data.frame() function.
-# beware: data.frame()’s default behaviour turns strings into factors
+# be aware: data.frame()’s default behaviour turns strings into factors
 
 # to avoid the problem of converting strings into factors,
 # we can use 'stringAsFactors' = FALSE
@@ -210,14 +220,17 @@ v3 <- c(TRUE,TRUE,FALSE)                         # logical vector
 data.frame(v1, v2, v3, stringsAsFactors = FALSE) # data.frame
 
 s = c("a"=5, "b"=4, "c"=3, "d"=2, "e"=1)
+s
 s[3] # subsetting vectors
 
-s[-3] # dropping elements
+s[-3] # dropping elements! this will not count in reverse order!
 
 s[10] # IMPORTANT: out of range index returns NA
 
 indx <- c(2,3,4) # we can retrive more than one element
 s[indx]
+
+s[-indx]
 
 i_names <- c('d', 'b') # we can also retrive elements with their names
 s[i_names]
@@ -272,16 +285,21 @@ M[i, ]
 i <- c(TRUE, FALSE)  # ->  c(TRUE, FALSE, TRUE)
 M[i, ]
 
-i <- M[, 'c3'] < 2 * M[, 'c1']
+i <- M[, 'c3'] < 2 * M[, 'c1'] # take the index of where the condition is TRUE
 M[i, 'c4']
 
 M
 
 # subsetting lists
+# https://r4ds.had.co.nz/vectors.html#visualising-lists
+
+# The distinction between [ and [[ is really important for lists, 
+# because [[ drills down into the list while [ returns a new, smaller list
+# [[ extracts a single component from a list. It removes a level of hierarchy from the list.
 
 new_list
-new_list[2] # we take the second element of the list that is a vector
 
+new_list[2] # we take the second element of the list that is a list
 new_list[[2]] # the result is the content of the second element, not wrapped in a list
 
 class(new_list[2]) # output: 'list'
