@@ -347,7 +347,7 @@ x <- c(100, 200, 300, 400, 500)
 y <- c(1, 2, 3, 4, 5, 6, 7, 8, 9)
 
 # so in this case the 2 vectors have different lenghts,
-# and their sum is computed by recycpling values of the shorter vector
+# and their sum is computed by recycling values of the shorter vector
 
 x + y 
 
@@ -366,6 +366,7 @@ M
 x
 M + x # sum the vector x by column 
 M
+x
 M * x # product between the vector x by the columns of the matrix
 
 N <- M <- matrix(1:20*10, ncol = 5, nrow = 4, byrow = TRUE) # by 50
@@ -374,6 +375,8 @@ M
 N
 M + N
 
+M
+x
 M %*% x # matrix product
 
 M
@@ -384,7 +387,6 @@ M * x # product between the elements in the vector and the columns of the matrix
 x <- c(100, 200, 300, 400, 500)
 y <- c(1, 2, 3, 4, 5)
 x %*% y # vector multiplication: 100*1+200*2+300*3+400*4+500*5
-
 
 # if statement
 if (7==7){
@@ -502,6 +504,8 @@ my_data
 
 which(my_data$c1 >= 20)
 
+M
+which(M == max(M))
 which(M == max(M), arr.ind = TRUE) 
 
 # %in%
@@ -521,7 +525,7 @@ b %in% a
 # into groups defined by a factor
 
 # generates 5 values from a standard normal, 5 values from
-# uniform distribution (0,1), 5 values from a normal (1,sqrt(2)):
+# uniform distribution (0,1), 5 values from a normal with mean 1 and sd 2:
 
 x <- c(rnorm(n = 5), runif(n = 5), rnorm(n = 5, mean = 1,sd = 2))
 f <- gl(3, 5) # generate levels (as.factor(rep(1:3, each=10)))
@@ -549,9 +553,10 @@ for (i in v){
 
 # range() can be used within seq()
 
-range <- range(1,10)
-v <- seq(range[1], range[2], by=2)
-for (i in v){
+my_range <- range(1,10)
+l <- seq(my_range[1], my_range[2], by=2)
+l
+for (i in l){
         print(i)
 }
 
@@ -596,7 +601,7 @@ while(val > 5) {
 x <- 1:6
 for (i in x){
         if (i == 2){
-                next
+                next # tt jumps the evaluation of the condition holding the current loop
         }
         print(i)
 }
@@ -605,22 +610,25 @@ for (i in x){
 # and returns a vector as output
 
 # lapply() function applies a function to each element of a list
-# returnin a list
+# returning a list!
 
 x <- list(a = 1:10, b = 1:100, c = c(1,2,3,5,6,7,8))
+x
 lapply(X = x, FUN = mean)
 
 # runif() generates random deviates from U(min,max) with
 # default min=0,max=1
-lapply(X = 1:4, FUN = runif)
+lapply(X = 1:4, FUN = runif) # here, lapply interprets each element of X as the n argument for runif
 
 # when you pass a function to lapply(), it takes elements of the 
 # list and passes them as the first argument of the function you are applying
+# The first argument of runif() is n, and so the elements of the sequence 1:4 
+# all got passed to the n argument
 
 set.seed(33) # with for loops
 res <- vector(mode = "list",length = 4)
 for (i in 1:4) {
-  res[[i]] <- runif(n = i,min = 0,max = 10)
+  res[[i]] <- runif(n = i,min = 0,max = 1)
 }
 res
 
@@ -629,11 +637,7 @@ set.seed(33) # with lapply using the dot-dot-dot argument
 
 
 set.seed(33) # with lapply explicitly defining FUN
-(res <- lapply(
-  X = 1:4,
-  FUN = function(num)
-    runif(n = num, min = 0, max = 10)
-))
+(res <- lapply(X = 1:4, FUN = function(num) runif(n = num, min = 0, max = 10)))
 
 # sapply()
 
@@ -649,6 +653,7 @@ set.seed(33) # with lapply explicitly defining FUN
 
 x <- list(a = 1:10, b = 1:100)
 sapply(x, FUN = mean)
+lapply(x, FUN = mean)
 
 # example returning a matrix
 
@@ -671,7 +676,7 @@ print(apply(M, MARGIN = 2, FUN = mean)) # we want the mean of each column
 print(apply(M, MARGIN = 1, FUN = mean)) # we want the mean of each row
 
 # tapply() function is used to evaluate a function to each group of values 
-# defined by a factor
+# defined by a factor!
 # the basic syntax for tapply() is as follows: tapply(data, INDEX, FUN)
 # data: the vector or array you want to summarize
 # INDEX: a list of factors or grouping variables used to split the data
@@ -693,6 +698,8 @@ tapply(X = x, INDEX = f, FUN = mean)
 
 # This applies the function mean to the values of x, grouped by the levels of f.
 # The result is the mean of each group in x corresponding to the levels of f
+
+# also useful in dataframes that contain a factor
 tapply(X = iris$Sepal.Length, INDEX = iris$Species, FUN = mean)
 
 # functions
@@ -715,14 +722,13 @@ sum_fun <- function(n){
 sum_fun(n = 100)
 
 # function to compute the p-norm of a vector x
-
 p_norm <- function(x, p = 2){
         d <- sum(x^p)^(1/p)
         return(d)
 }
 print(p_norm(x = c(1, 1))) # default value of p = 2
 
-print(p_norm(x = c(1, 1), p = 3))
+print(p_norm(x = c(1, 1), p = 3)) # compute the 3-norm of the vector c(1,1)
 
 
 # functions
@@ -740,7 +746,7 @@ test()
 # R firstly search in the local environment
 # if the object is not present in searches in the global enviroment for that object
 
-i <- 1 # global value
+i <- 5 # global value
 
 test <- function(){
         # since there is no i in the local env. the function will search in the global env
@@ -763,8 +769,10 @@ fit
 
 # CVS: Comma Separated Values
 
+# a comma-separated values (CSV) file is a delimited text file that uses a comma to separate values
 # a csv file stores tabular data in plain text
 # each line of the file is a data record
+# each record consists of one or more fields, separated by the delimiter
 
 data('mtcars')
 write.csv(mtcars, file = 'my_mtcars.csv') # we are exporting the file, putting it in the repository
@@ -781,6 +789,7 @@ head(covid_daily_report, n = 5)
 
 # the quantmod package provides a very usefull function for 
 # downloading finacial data from the web
+# for currencies, the oanda source is used
 
 library(quantmod)
 x <- getSymbols(Symbols = 'EUR/USD', src = 'oanda', auto.assign = FALSE)
@@ -819,9 +828,9 @@ par(mfrow = c(1,2)) # one row two columns
 plot(x1, y1, type = 'b', col = 'red', cex = 2, pch = 20) # 'b' means both points and lines connecting the points will be plotted.
 plot(x2, y2, col = 'blue', cex = 2, pch = 20)
 
-# to reset the old graphicla parameters and close the graphical device we use:
+# to reset the old graphical parameters and close the graphical device we use:
 dev.off()
-par(mfrow = c(1,1))
+par(mfrow = c(1,1)) #  1 row and 2 columns filled by row
 
 # we can use segments() and lines() functions to add lines and segments to an existing plot:
 # - lwd modifies line width
@@ -847,8 +856,6 @@ segments(
 )
 
 
-
-
 plot(x2, y2, xlim = c(-0.25, 10.25), ylim = c(-0.25, 10.25), pch = 20)
 segments(
   x0 = c(0,   0, 10, 10, 0,   0), y0 = c(0,  10, 10,  0, 0,  10),
@@ -856,13 +863,14 @@ segments(
   lwd = 2, col = 2,  lty = 2
 )
 
+
+# the plot() function is vectorized with respect to its parameters
 # we can pass vectors to certain arguments like
 # - color(col)
 # - point type(pch)
 # - sixe(cex)
 
-
-plot(x1, y1, col = 1:10, pch = 1:10, cex = 1:10 / 2, lwd = 3, 
+plot(x1, y1, col = 1:10, pch = 1:10, cex = 1:10, lwd = 3, 
         xlab = "", ylab = "", xlim = c(0, 11), ylim = c(0, 11))
 
 # the function 'lines()' can be used to add lines to an existing plot overlaying it
@@ -878,7 +886,7 @@ set.seed(1)
 x4 <- rnorm(n = 500)
 hist(x4)
 
-hist(x4, breaks = 30) # with breaks we can control the number of breakpoints
+hist(x4, breaks = 30, freq=FALSE) # with breaks we can control the number of breakpoints
 
 # The hist() function can plot relative frequencies
 # the density() function can be used to estimate the probability density of the data
@@ -888,18 +896,19 @@ lines(density((x4)))
 
 # the density() function provides a non parametric estiamte of the probability density function
 
+# Plotting density estimates with different bandwidths (bandwidth is the difference between the upper and lower frequencies)
 plot(density(x4, bw = 1)) # bw is the parameter responsable of smoothing
 
-plot(density(x4, bw = 0.1))
+plot(density(x4, bw = 0.1)) # less smooyhing
 
 # the curve() function is used to plot mathematical expression in R
 
-curve(expr = x^3 - x^2 - 3*x, from = -2, to = 2.5)
+curve(expr = x^3 - x^2 - 3*x, from = -2, to = 2.5) # plotting a cubic function 
 
 # the curve() function can also be used to plot predefined functions like dnorm(),
 # which represents the probability density function of a normal distribution
 
-curve(dnorm, from = -3, to = 3)
+curve(dnorm, from = -3, to = 3) # plot the standard normal distribution
 
 # custumization
 
