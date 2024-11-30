@@ -1145,5 +1145,6 @@ simulated_pi <- A_circle_over_A_square*A_square
 print(simulated_pi)
 
 
-install.packages("jsonlite")
-
+# ====================================
+#           Lecture 9
+# ====================================
