@@ -954,9 +954,12 @@ iris_tbl <- tibble::as_tibble(iris)
 iris_tbl
 
 iris$Species
-head(iris$Species, 3)
-head(iris_tbl$Species, 3)
 
+# partial matching
+head(iris$Spe, 3)
+head(iris_tbl$Spe, 3)
+
+# subsetting
 head(iris[,1])
 iris_tbl[,1]
 
@@ -970,7 +973,7 @@ head(mpg)
 ggplot(data = mpg) + 
         geom_point(mapping = aes(x = displ, y = hwy))
 
-# ggplot creates an empty plot
+# the function 'ggplot' creates an empty plot
 # with geom_point we add an extra layer to the plot creating a scatterplot
 # to define how a layer is crated we use 'aes' function, within which we
 # specify which values to map to x-axis and the y-axis
@@ -988,13 +991,17 @@ ggplot(data = mpg) +
 
 # we can associate the class variable with different characteristics of a poit such as its size
 ggplot(data = mpg) +
-  geom_point(mapping = aes(x = displ, y = hwy, size = drv))
+        geom_point(mapping = aes(x = displ, y = hwy, size = drv))
 
 
 ggplot(data = mpg) + 
         geom_point(mapping = aes(x = displ, y = hwy), col = "blue")
 
 ggplot(data = mpg) + 
+        geom_smooth(mapping = aes(x = displ, y = hwy))
+
+ggplot(data=mpg) +
+        geom_point(mapping = aes(x = displ, y = hwy)) +
         geom_smooth(mapping = aes(x = displ, y = hwy))
 
 # we now are going to modify the line type
@@ -1139,3 +1146,4 @@ print(simulated_pi)
 
 
 install.packages("jsonlite")
+
