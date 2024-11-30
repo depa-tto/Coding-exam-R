@@ -1148,3 +1148,154 @@ print(simulated_pi)
 # ====================================
 #           Lecture 9
 # ====================================
+
+# oop lenguage 
+
+# R has some class systems that allow for Object Oriented Programming (OPP)
+# s3
+# s4
+# s7
+
+# objects are created having certain characteristics (attributes) 
+# for doing something (methods).
+# In R we have the symbol ’‘$’’ 
+# for separating the name of the object and the attribute or the method.
+
+
+# s3 class
+# s3 is the simplest yet the most popular OOP system in R
+# To check if an object is an S3 object you 
+# can use is.object() or otype() from the sloop package.
+df <- data.frame(x= 1:10, y = letters[1:10])
+df
+
+is.object(df)
+
+library(sloop)
+sloop::otype(df)
+
+class(df)
+
+# Now we want to create the method 'adding_1'
+# Such a method should behave differently depending on the S3 class
+# First of all we have to define the default method which states 
+# what the method should do, i.e. adding 1 to each element and display the result: 
+adding_1 <- function(x, ...) UseMethod("adding_1")
+adding_1.default <- function(x, ...){
+  x <- x + 1
+  x
+}
+
+# UseMethod defines the name of the method
+
+# Now we want to define what the method adding_1 
+# should do in case we have a list data structure:
+adding_1.list <- function(x, ...){
+        num <- sapply(x, FUN=is.numeric)
+        x[num] <- lapply(x[num], FUN=adding_1)
+        x
+}
+
+# This method will be used when applying adding_1 to lists
+
+# Now we want to define what the method adding_1 should do in case 
+# we have a data.frame data structure
+adding_1.data.frame <- function(x, ...){
+        num <- sapply(x, FUN=is.numeric)
+        x[num] <- lapply(x[num], FUN=adding_1)
+        x
+}
+
+
+# we can check that 'adding_1' behaves differently depending on the s3 class
+x <- c(1:10)
+x
+class(x)
+typeof(x)
+
+adding_1(x)
+
+# adding_1 with data.frame
+tibble::glimpse(df)
+class(df)
+
+adding_1(df)
+
+
+# create our own s3 class
+# A class can be assigned to a object by just adding an attribute to it
+Match_list <- list(name = "Inter-Roma", score="0-1", referee = "Maresca")
+
+# The class function is used to assign the custom class 
+# "Match" to this list, making it an S3 object of class Match
+class(Match_list) <- "Match"
+Match_list
+
+# and the we can define a particular behavior of 'adding_1' to this newly created class
+adding_1.Match <- function(x, ...){
+  score <- x$score # extract the 'score' component from the object
+  score_tmp <- strsplit(score, "-")[[1]] # split the score string into individual scores
+  score_p_1 <- as.numeric(score_tmp) + 1 # convert to numeric and add 1 to each score
+  paste(score_p_1, collapse = "-") # combine back into the "x-y" format
+}
+
+adding_1(Match_list)
+
+# Key Concepts of S3 System in R:
+
+# 1. Class Assignment:
+#    Use 'class(object) <- "ClassName"'' to define a custom class.
+
+# 2. Custom Methods:
+#    Define methods in the format 'MethodName.ClassName' (e.g., 'adding_1.Match') 
+#    to tailor behavior for objects of that class.
+
+# 3. Method Dispatch:
+#    When a function (e.g., 'adding_1') is called with an object of class '"Match"'',
+#    R automatically calls the method 'adding_1.Match'
+
+
+# ====================================
+#           Lecture 10
+# ====================================
+mat <- matrix(1:9,nrow=3,byrow=FALSE)
+mat
+
+mat[2,3]
+
+my_list <- list(nums=1:3, letters=c('a','b','c','d'), flag=TRUE)
+my_list$letters[2]
+my_list[['letters']][2]
+my_list[[2]][2]
+
+x <- 1
+y <- 0
+while(x<=5){
+        y <- y + x
+        x <- x + 1
+}
+
+y
+
+square_function <- function(x){
+        x <- x^2
+        return(x)
+}
+
+square_function(x=5)
+
+x <- y <- 1:10
+group <- letters[1:10]
+
+plot(x,y,col=as.factor(group),pch=19,xlab='x-axis label',ylab='y-axis label')
+
+
+library(magrittr)
+
+df <- data.frame(x=rnorm(10),y=rnorm(10),z=rnorm(10))
+df
+
+res <- df %>% list(y=nrow(df),z=ncol(.))
+res
+
+tibble::glimpse(res)
