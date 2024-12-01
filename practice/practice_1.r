@@ -1,7 +1,6 @@
 # R Coding ----
 
 # Lecture 1: Tidyverse Basics ---------------------------------------------
-# Marco Zanotti
 
 # Goals:
 # - Dive into the tidyverse
