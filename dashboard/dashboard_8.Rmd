@@ -258,9 +258,8 @@ Row {data-height=150}
 ---------------------------------------------------------------
 
 ```{r}
-summary_values_tbl <- reactive({
-  # summary_values_tbl <- 
-  processed_data_filtered_tbl() %>%
+summary_values_tbl <- reactive({ # filtered data that we are going to call later with the '()' so as a function since is a reactive element 
+   processed_data_filtered_tbl() %>%
     summarize(
       health_metric = unique(order.id) %>% length(),
       wealth_metric = sum(extended_price),
