@@ -1,0 +1,49 @@
+---
+# this is the YAML header of the R marckdown in which we specify the characteristics of the dashboard
+
+title: "Flexdashboard UI Tutorial"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows # could be also by columns
+    vertical_layout: scroll # could be also 'fill' so we do not scroll with a scrollable bar
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+<!-- This is an empty template to create the dashboard live. !!!!!!!!!! -->
+<!-- Clear all the content after the lecture. !!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+
+# Sidebar {.sidebar}
+
+Button Inputs
+
+- Input 1
+
+- Input 2
+
+# Page 1
+
+<!-- the name could be also row 1, what matters is the orientation that could be found in the
+YAML header -->
+## Row 1 {.tabset} 
+
+### Chart 1
+
+### Chart 2
+
+## Row 2{.tabset}
+
+### Plot 1
+### Plot 2
+### Plot 3
+
+# Page 2
+
+## Row 3
+
+### Table 3
+
+
