@@ -78,7 +78,7 @@ actionButton(
   icon = icon("sync")
 )
 
-observeEvent(
+observeEvent( # reset button encapsulated into a observe event
   eventExpr = input$reset,
   handlerExpr = {
 
@@ -159,7 +159,7 @@ sales_data_filtered <- reactive({
 ### Section - Reactive Output
 
 ```{r}
-output$tab_output <- renderTable(sales_data_filtered())
+output$tab_output <- renderTable(sales_data_filtered()) # when we want to render or use a reactive object we have to use it as a function, so with ()
 tableOutput(outputId = "tab_output")
 ```
 
