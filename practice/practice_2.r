@@ -84,17 +84,19 @@ relig_income %>%
 # longer means we are putting columns into rows
 # pivot_longer() "lengthens" data, increasing the number of rows and decreasing the number of columns
 # the inverse transformation is pivot_wider()
+# in this case for every religion we create a row with the corresponding income and frequence
 
 billboard
 names(billboard)
 billboard %>% 
   pivot_longer(
-    wk1:wk76, # -c(artist, track, date.entered)
-    names_to = "week", 
-    values_to = "rank", 
+    wk1:wk76, # columns we want to extend
+    names_to = "week", # column name of the new extended column
+    values_to = "rank", # value of the corresponding week
     values_drop_na = TRUE
   )
 
+# is like we are picking the first row and transforming it into a column
 
 # * Multiple Variables ----------------------------------------------------
 
@@ -122,19 +124,19 @@ tb
 tb %>% 
   pivot_longer(
     !c(iso2, year), 
-    names_to = "name", # A character vector specifying the new column or columns to create from 
+    names_to = "name", # a character vector specifying the new column or columns to create from 
                         # the information stored in the column names of data specified by cols
-    values_to = "n" # A string specifying the name of the column to create from the data stored in cell values. 
-                    # If names_to is a character containing the special
+    values_to = "n" # a string specifying the name of the column to create from the data stored in cell values. 
+                    # if names_to is a character containing the special
   ) %>% 
-  separate(col = name, into = c("sex", "age"), sep = 1) %>% 
-  fill(n, .direction = "down")
+  separate(col = name, into = c("sex", "age"), sep = 1) %>% # split a column into more columns at character 1
+  fill(n, .direction = "down") # fill the missing values from the previous one
 
 tb %>% 
   pivot_longer(
     !c(iso2, year), 
     names_to = c("sex", "age"), 
-    names_pattern = "(.)(.+)",
+    names_pattern = "(.)(.+)", # what is the pattern that allows us to separate the column into 2 sub-columns?
     values_to = "n"
   ) %>% 
   drop_na()
@@ -172,7 +174,7 @@ weather %>%
     names_to = "day", 
     values_to = "value"
   ) %>% 
-  pivot_wider(
+  pivot_wider( # with pivot_wider we are separating the 'element' column into 2 sub-columns
     names_from = element,
     values_from = value
   )
@@ -205,23 +207,22 @@ billboard_long <- billboard %>%
     values_to = "rank", 
     values_drop_na = TRUE
   ) %>% 
-  dplyr::mutate(
-    week = as.integer(stringr::str_remove(week, "wk")),
+  dplyr::mutate( 
+    week = as.integer(stringr::str_remove(week, "wk")), # we are removing strings and transforming the week column into a integer
     date = as.Date(date.entered) + 7 * (week - 1),
     date.entered = NULL
   )
 billboard_long
 
 song <- billboard_long %>% 
-  dplyr::distinct(artist, track) %>%
-  dplyr::mutate(song_id = dplyr::row_number(), .before = everything())
+  dplyr::distinct(artist, track) %>% # distinct from dplyr removes duplicates - this selects only the unique combinations of artist and track
+  dplyr::mutate(song_id = dplyr::row_number(), .before = everything()) # mutate() adds a new column to the dataset
 song
 
 rank <- billboard_long %>%
-  dplyr::left_join(song, by = c("artist", "track")) %>%
+  dplyr::left_join(song, by = c("artist", "track")) %>% # artist and track are the keys
   dplyr::select(song_id, date, week, rank)
-rank
-
+rank # dataset of the rank for each song
 
 # * One Type in Multiple Tables -------------------------------------------
 
@@ -302,33 +303,39 @@ library(dplyr)
 # * Rows ------------------------------------------------------------------
 
 # filter
-starwars %>% filter(skin_color == "light", eye_color == "brown")
+starwars %>% filter(skin_color == "light", eye_color == "brown") # filter the rows based on some conditions
 
 starwars %>% filter(skin_color == "light" & eye_color == "brown")
 
 starwars %>% filter(skin_color == "light" | eye_color == "brown")
 
+v <- c('blue','red')
+
+starwars %>% filter(eye_color %in% v)
+
+starwars %>% filter(!eye_color %in% v) # '!' stands for not
+
 # slice
-starwars %>% slice(5:10)
+starwars %>% slice(5:10) # select rows based on index, in this case rows from 1 to 10
 
 starwars %>% slice(-1)
 
-starwars %>% slice_head(n = 3)
+starwars %>% slice_head(n = 3) # first 3 rows
 
-starwars %>% slice_tail(n = 3)
+starwars %>% slice_tail(n = 3) # last 3 rows
 
-starwars %>% slice_sample(n = 5)
+starwars %>% slice_sample(n = 5) # 5 random rows from our dataset
 
 starwars %>% slice_sample(prop = .2, replace = TRUE)
 
-starwars %>% slice_max(height, n = 3)
+starwars %>% slice_max(height, n = 3) # select row based on the maximum value of the height variable
 
 starwars %>% slice_min(height, n = 3)
 
 # arrange
-starwars %>% arrange(height, mass)
+starwars %>% arrange(height, mass) # sort rows based on columns
 
-starwars %>% arrange(desc(height))
+starwars %>% arrange(desc(height)) # desc has to be specified fro descending order
 
 starwars %>% arrange(name)
 
@@ -336,9 +343,14 @@ starwars %>% arrange(name)
 # * Columns ---------------------------------------------------------------
 
 # select
+
+starwars
+
 starwars %>% select(height, mass, hair_color, skin_color, eye_color, birth_year)
 
 starwars %>% select(height:birth_year)
+
+starwars %>% select(height:birth_year,name) # putting the name column at the end
 
 starwars %>% select(!(height:birth_year))
 
@@ -346,14 +358,14 @@ starwars %>% select(ends_with("color"))
 
 starwars %>% select(starts_with("h"))
 
-starwars %>% select(matches("^h"))
+starwars %>% select(matches("^h")) # start with 'h'
 
 starwars %>% select(contains("_"))
 
 vars <- c("name", "height")
-starwars %>% select(all_of(vars), "mass")
+starwars %>% select(all_of(vars), "mass") # selecting from a vector
 
-starwars %>% select(height:birth_year, everything()) # relocate with select
+starwars %>% select(height:birth_year, everything()) # relocate columns that are not selected 
 
 # relocate
 starwars %>% relocate(sex:homeworld, .before = height)
@@ -361,16 +373,16 @@ starwars %>% relocate(sex:homeworld, .before = height)
 starwars %>% relocate(sex:homeworld, .after = mass)
 
 # rename
-starwars %>% rename(home_world = homeworld, person = name)
+starwars %>% rename(home_world = homeworld, person = name) # new name = old name 
 
 # mutate
-starwars %>% mutate(height_m = height / 100)
+starwars %>% mutate(height_m = height / 100) # creating a new column that is going to be added at the end
 
 starwars %>%
   mutate(height_m = height / 100) %>%
-  select(name, height_m, height, everything())
+  select(name, height_m, height, everything()) # relocate the new column with the seletc function
 
-starwars %>% mutate(height_m = height / 100, .before = height) 
+starwars %>% mutate(height_m = height / 100, .before = height) # direct relocation
 
 starwars %>%
   mutate(
@@ -387,7 +399,8 @@ starwars %>%
 
 starwars %>% 
   mutate(
-    across(where(is.numeric), ~ .x / 100)
+    across(where(is.numeric), ~ .x / 100) # specify  a set of columns on where we eant to perform a function
+# lambda function (~) that divides the values in the selected columns (.x) by 100
   )
 
 starwars |> select(name:species) |> str()
