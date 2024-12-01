@@ -440,7 +440,7 @@ starwars %>%
   )
 
 starwars %>% 
-  summarise(across(c(height, mass), c(mean, sd), na.rm = TRUE))
+  summarise(across(c(height, mass), c(mean, sd), na.rm = TRUE)) # remember that across let us apply functions over different columns
 
 starwars %>% 
   summarise(across(c(height, mass), list(mu = mean, sigma = sd), na.rm = TRUE))
@@ -465,18 +465,18 @@ starwars %>% summarise(across(where(is.numeric), min_max))
 
 # group_by
 starwars$species |> table()
-starwars %>% group_by(species)
-starwars %>% group_by(species) %>% tally(sort = TRUE)
+starwars %>% group_by(species) # perfom an operation over the group specified
+starwars %>% group_by(species) %>% tally(sort = TRUE) # tally let us count the observation per group
 
 starwars %>% group_by(sex, gender)
-starwars %>% group_by(sex, gender) %>% tally(sort = TRUE)
+starwars %>% group_by(sex, gender) %>% tally(sort = TRUE) # frequency table
 
-starwars %>% group_by(species) %>% ungroup() %>% tally(sort = TRUE)
+starwars %>% group_by(species) %>% ungroup() %>% tally(sort = TRUE) # just give back the number of rows since we have ungroup
 
 # group_by + summarise
 starwars %>% 
   group_by(species) %>%
-  summarise(n = n(), height = mean(height, na.rm = TRUE))
+  summarise(n = n(), height = mean(height, na.rm = TRUE)) # n = n() is like tally, we are just counting
 
 starwars %>% 
   group_by(sex, gender) %>%
@@ -486,7 +486,7 @@ starwars %>%
 starwars %>% 
   relocate(species) %>% 
   group_by(species) %>%
-  slice(1:2)
+  slice(1:2) # two rows for each group
 
 starwars %>% 
   relocate(sex, gender) %>% 
@@ -510,7 +510,7 @@ starwars %>%
 
 starwars %>%
   group_by(species) %>% 
-  summarise(n = n())
+  summarise(n = n()) # same as 'count(species)'
 
 
 # * Joins -----------------------------------------------------------------
@@ -556,13 +556,13 @@ flights_small %>% left_join(airports, by = c("dest" = "faa"))
 # * Utilities -------------------------------------------------------------
 
 # distinct
-starwars
+starwars # allow to reove duplicated rows
 starwars %>% distinct()
-starwars %>% distinct(sex)
+starwars %>% distinct(sex) # distinct values of the variable sex
 starwars %>% distinct(sex, .keep_all = TRUE)
 
 # pull
-starwars[["name"]]
+starwars[["name"]] # pulling out the name column
 starwars %>% pull(name)
 
 # bind_rows / bind_columns
