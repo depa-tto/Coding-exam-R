@@ -686,12 +686,12 @@ lapply(BOD, function(x) 10 * x)
 # the apply() function is used to evaluate a function over the 
 # margins(rows or columns) of an array
 
-M <- matrix(1:20, nrow = 4, ncol = 5, byrow = TRUE)
+M <- matrix(c(1:20), nrow = 4, byrow = TRUE)
 M
 
-print(apply(M, MARGIN = 2, FUN = mean)) # we want the mean of each column
+apply(M, MARGIN = 2, FUN = mean) # we want the mean of each column
 
-print(apply(M, MARGIN = 1, FUN = mean)) # we want the mean of each row
+apply(M, MARGIN = 1, FUN = mean) # we want the mean of each row
 
 # tapply() function is used to evaluate a function to each group of values 
 # defined by a factor!
@@ -703,21 +703,18 @@ print(apply(M, MARGIN = 1, FUN = mean)) # we want the mean of each row
 x <- c(rnorm(10), runif(10), rnorm(10, 1))
 # rnorm(10) generates 10 random values from a standard normal distribution (mean 0, SD 1).
 # runif(10) generates 10 random values from a uniform distribution between 0 and 1.
-# rnorm(10, 1) generates 10 random values from a normal distribution with mean 1 and SD 1.
+# rnorm(1, 1) generates 10 random values from a normal distribution with mean 1 and SD 1.
 x
 
 # gl(3, 10) generates a factor variable with 3 levels (1, 2, 3), each repeated 10 times, resulting in 30 values
 f <- gl(3, 10) # [1] 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3
 f
-tapply(X = x, INDEX = f, FUN = mean) 
-
-# tapply() is also useful in dataset that contain a factor
-
+tapply(X = x, INDEX = f, FUN = mean)
 
 # This applies the function mean to the values of x, grouped by the levels of f.
 # The result is the mean of each group in x corresponding to the levels of f
 
-# also useful in dataframes that contain a factor
+# tapply() is also useful in dataset that contain a factor
 tapply(X = iris$Sepal.Length, INDEX = iris$Species, FUN = mean)
 
 # functions
@@ -766,13 +763,13 @@ test()
 
 i <- 5 # global value
 
-test <- function(){
+test_1 <- function(){
         # since there is no i in the local env. the function will search in the global env
         i <- i * 10 # local variable i
         return(i)
 }
 
-test()
+test_1()
 i # global env. has not changed
 
 # call an external function
@@ -829,7 +826,7 @@ y1 <- 10:1
 plot(x1, y1)
 
 # we can easily modify our plot
-# cex=number to change the size of the points (1 is default, while 0.5 means 50% smaller, and 2 means 100% larger)
+# cex = number used to change the size of the points (1 is default, while 0.5 means 50% smaller, and 2 means 100% larger)
 # point shape: use 'pch' with a value from 0 to 25 to change the point shape format:
 plot(x1, y1, col = "red", cex = 2, pch = 20, xlab = "Hi!", ylab = "", main = "My second plot!")
 
