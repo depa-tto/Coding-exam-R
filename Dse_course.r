@@ -128,7 +128,7 @@ N
 # list
 
 # a list is a collection of objects. is the most general and flexible element in R
-# because the can contain elements of any type, including other lists
+# because they can contain elements of any type, including other lists
 
 new_list <- list(
         A = matrix(c(1,2,3,4), ncol = 2),
@@ -137,9 +137,9 @@ new_list <- list(
 
 new_list
 
-new_list[2]
-new_list$y
-new_list[[2]] 
+new_list[2] # second list
+new_list$y # elements of the second list
+new_list[[2]] # elements of the second list
 
 new_list$A[2] # how to take a value in a nested list
 new_list$y[3]
@@ -165,7 +165,9 @@ nested_list <- list(
   b = list(z = 3, w = 4)
 )
 
+nested_list
 
+nested_list[1]
 nested_list[[1]]          # access to first list (a)
 nested_list[[1]][["x"]]   # access to element 'x' of list 'a'
 nested_list[[2]][["z"]]   # access to element 'z' of list 'b'
@@ -324,6 +326,9 @@ head(iris[[1]]) # output: vector
 
 head(iris[1]) # output a dataframe with 1 column
 
+class(iris[1])
+class(iris[[1]])
+
 # in addition R allows to use a typical matrix syntax
 
 iris[1,] # first row
@@ -357,7 +362,7 @@ x + a
 b <- 2
 x * b
 
-M <- matrix(1:16, ncol = 4, nrow = 4, byrow = TRUE)
+M <- matrix(c(1:16), ncol = 4, nrow = 4, byrow = TRUE)
 M
 M + a
 M * b
@@ -411,6 +416,14 @@ if (x>y) {
         print('y is grater')
 } else {
         print('x and y are equal')
+}
+
+if (x==y){
+        print('x=y')
+}else if (x<y){
+        print('x<y')
+}else{
+        print('x>y')
 }
 
 # nested if
@@ -500,7 +513,7 @@ my_data <- data.frame('c1' = v1,
 my_data
 
 # we want all the row numbers where column c1 is greater
-# than or eual to 20
+# than or equal to 20
 
 which(my_data$c1 >= 20)
 
@@ -532,7 +545,7 @@ f <- gl(3, 5) # generate levels (as.factor(rep(1:3, each=10)))
 x
 my_data <- split(x, f)
 my_data
-
+class(my_data)
 
 # for loops are used for iterating over the elements of an object and 
 # doing some operations in the body of the loop
@@ -601,7 +614,7 @@ while(val > 5) {
 x <- 1:6
 for (i in x){
         if (i == 2){
-                next # tt jumps the evaluation of the condition holding the current loop
+                next # it jumps the evaluation of the condition holding the current loop
         }
         print(i)
 }
@@ -619,6 +632,7 @@ lapply(X = x, FUN = mean)
 # runif() generates random deviates from U(min,max) with
 # default min=0,max=1
 lapply(X = 1:4, FUN = runif) # here, lapply interprets each element of X as the n argument for runif
+lapply(X = 1:4, FUN = runif, min = 10, max = 20)
 
 # when you pass a function to lapply(), it takes elements of the 
 # list and passes them as the first argument of the function you are applying
@@ -655,11 +669,15 @@ x <- list(a = 1:10, b = 1:100)
 sapply(x, FUN = mean)
 lapply(x, FUN = mean)
 
+class(sapply(x, FUN = mean))
+class(lapply(x, FUN = mean))
+
 # example returning a matrix
 
 BOD
 
 sapply(BOD, function(x) 10 * x)
+lapply(BOD, function(x) 10 * x)
 
 # ====================================
 #           Lecture 4
