@@ -6,17 +6,8 @@ output:
     vertical_layout: fill
     css: css/styles-default.css
     logo: img/logo.png
-runtime: shiny # this make the dashboeard reactive
+runtime: shiny # this make the dashboard reactive
 ---
-
-<!-- 
-Contents:
-- add inputs
-   - switch for dark mode
-- include default css
-- include dark mode css
-- include logo
--->
 
 ```{r setup, include=FALSE, message=FALSE}
 source("../R/utils.R")
@@ -165,6 +156,15 @@ actionButton(inputId = "apply", label = "Apply", icon = icon("play"))
 
 actionButton(inputId = "reset", label = "Reset", icon = icon("sync"))
 
+
+# It says:
+# "The moment something changes, do this thing immediately!"
+# Best for quick tasks like resetting inputs, showing a message, or toggling a switch.
+
+# How it works:
+# eventExpr: The event you want to observe (e.g., a button press, a value change).
+# handlerExpr: The code that runs when the event is detected.
+
 observeEvent(eventExpr = input$reset, handlerExpr = {
   
   updateDateRangeInput(
@@ -206,7 +206,7 @@ observeEvent(eventExpr = input$reset, handlerExpr = {
     value = 12
   )
   
-   shinyjs::delay(ms = 300, expr = {shinyjs::click(id = "apply")})
+   shinyjs::delay(ms = 300, expr = {shinyjs::click(id = "apply")}) # simulate clicking "Apply" after 300ms
  
 })
 
@@ -238,17 +238,28 @@ switchInput(
 ```
 
 ```{r}
+# Think of this as your chill, laid-back trigger
+# It’s like, "Yo, I’ll wait for you to press a button or make a change, and THEN I’ll do my thing"
+# Perfect for when you want to process data only when it's necessary (like after clicking a button)
+
+# How it works:
+# eventExpr: The event it’s listening for (like a button press or input change).
+# valueExpr: The code it runs when the event happens.
+
+# Trigger: When you press the Apply button.
+# Reaction: It filters your dataset based on the inputs (date range, bike type, etc.).
+# Result: The processed_data_filtered_tbl() now holds the updated data you can use elsewhere.
+
 processed_data_filtered_tbl <- eventReactive(
-  eventExpr = input$apply,
+  eventExpr = input$apply, # wait that the user press apply
   valueExpr = {
-    # processed_data_filtered_tbl <- 
     processed_data_tbl %>%
       filter(between(order.date, input$date_range_1[1], input$date_range_1[2])) %>%
       filter(category_1 %in% input$checkbox_category_1) %>%
       filter(category_2 %in% input$picker_category_2) %>% 
       filter(bikeshop.name %in% input$picker_bikeshop_name)
   }, 
-  ignoreNULL = FALSE
+  ignoreNULL = FALSE # execute anyway even if there are not initial inputs
 )
 ```
 
