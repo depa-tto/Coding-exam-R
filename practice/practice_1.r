@@ -322,7 +322,8 @@ select(df, where(is.numeric)) # selects all numeric columns
 library(magrittr)
 
 # Consider this example:
- 
+
+starwars 
 the_data <- starwars %>%
   filter(height > 200) %>%
   mutate(mass_lbs = mass * 2.205) %>% # convert kg to lbs
@@ -349,6 +350,7 @@ the_data <-
 the_data <- filter(starwars, height > 200) 
 the_data <- mutate(the_data, mass_lbs = mass * 2.205) # convert kg to lbs
 the_data <- select(the_data, name, height, mass, mass_lbs)
+the_data
 
 # CTRL + MAIUSC + M is the RStudio shortcut for the %>%
 # Since R version 4.1, the native pipe operator |> has been introduced  
@@ -565,12 +567,12 @@ str_replace_all(c("hello world", "hello world"), "l", "t")
 
 
 # * Testing Patterns ------------------------------------------------------
-str_view("hello world!", "world")
-str_view("hello world!", "\\d")
-str_view("hello world!", "\\w")
-str_view("hello world!", "\\w*")
-str_view("hello world!", "\\w*\\s\\w+")
-str_view("hello world!", "\\w{3}")
+str_view("hello world!", "world")            # Exact match for "world"
+str_view("hello world!", "\\d")              # Matches digits
+str_view("hello world!", "\\w")              # Matches a single "word character"
+str_view("hello world!", "\\w*")             # Matches zero or more "word characters"
+str_view("hello world!", "\\w*\\s\\w+")      # Matches a pattern of word characters, space, and more word characters
+str_view("hello world!", "\\w{3}")           # Matches exactly 3 word characters
 
 
 # * Base R Functions ------------------------------------------------------
@@ -681,7 +683,7 @@ levels(gss_cat$partyid)
 # fct_recode() will leave levels that aren’t explicitly mentioned as is, 
 # and will warn you if you accidentally refer to a level that doesn’t exist.
 # To combine groups, you can assign multiple old levels to the same new level.
-
+gss_cat$partyid
 fct_recode(
   gss_cat$partyid,
   "Republican, strong" = "Strong republican",
