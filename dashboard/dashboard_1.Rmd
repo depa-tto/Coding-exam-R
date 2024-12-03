@@ -26,7 +26,7 @@ Button Inputs
 
 # Page 1
 
-<!-- the name could be also row 1, what matters is the orientation that could be found in the
+<!-- the name could be also Column 1, what matters is the orientation that could be found in the
 YAML header -->
 ## Row 1 {.tabset} 
 
