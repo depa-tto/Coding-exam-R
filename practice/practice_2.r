@@ -316,9 +316,11 @@ starwars %>% filter(eye_color %in% v)
 starwars %>% filter(!eye_color %in% v) # '!' stands for not
 
 # slice
-starwars %>% slice(5:10) # select rows based on index, in this case rows from 1 to 10
+starwars
 
-starwars %>% slice(-1)
+starwars %>% slice(5:10) # select rows based on index, in this case rows from 5 to 10
+
+starwars %>% slice(-1) # removes the first row of the dataset
 
 starwars %>% slice_head(n = 3) # first 3 rows
 
@@ -333,9 +335,12 @@ starwars %>% slice_max(height, n = 3) # select row based on the maximum value of
 starwars %>% slice_min(height, n = 3)
 
 # arrange
+
+starwars
+
 starwars %>% arrange(height, mass) # sort rows based on columns
 
-starwars %>% arrange(desc(height)) # desc has to be specified fro descending order
+starwars %>% arrange(desc(height)) # desc has to be specified for descending order
 
 starwars %>% arrange(name)
 
@@ -556,8 +561,8 @@ flights_small %>% left_join(airports, by = c("dest" = "faa"))
 # * Utilities -------------------------------------------------------------
 
 # distinct
-starwars # allow to reove duplicated rows
-starwars %>% distinct()
+starwars 
+starwars %>% distinct() # allow to remove duplicated rows
 starwars %>% distinct(sex) # distinct values of the variable sex
 starwars %>% distinct(sex, .keep_all = TRUE)
 
@@ -597,7 +602,7 @@ mean(c(starwars$height, starwars$mass), na.rm = TRUE)
 
 starwars %>% 
   select(name, height, mass) %>% 
-  rowwise() %>% 
+  rowwise() %>% # tells dplyr to perform operations row-by-row, instead of column-by-column (which is the default behavior)
   mutate(average = mean(c(height, mass), na.rm = TRUE))
 
 starwars %>% 
